@@ -57,6 +57,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             else:
                 response = f"{get_all_animals()}"
+        
 
         if resource == "locations":
             if id is not None:

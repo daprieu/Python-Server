@@ -41,6 +41,6 @@ def get_single_location(id):
         # Dictionaries in Python use [] notation to find a key
         # instead of the dot notation that JavaScript used.
         if location["id"] == id:
-            requested_locations = location
+            requested_location = location
 
     return requested_location
