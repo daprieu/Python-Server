@@ -53,6 +53,7 @@ def get_all_employees():
         SELECT
             e.id,
             e.name,
+            e.address,
             e.location_id
         FROM employee e
         """)
@@ -70,7 +71,7 @@ def get_all_employees():
             # Note that the database fields are specified in
             # exact order of the parameters defined in the
             # employee class above.
-            employee = Employee(row['id'], row['name'], row['location_id']
+            employee = Employee(row['id'], row['name'], row['address'], row['location_id']
                             )
 
             employees.append(employee.__dict__)
@@ -90,6 +91,7 @@ def get_single_employee(id):
         SELECT
             e.id,
             e.name,
+            e.address
             e.location_id
         FROM employee e
         WHERE e.id = ?
