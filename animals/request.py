@@ -103,7 +103,7 @@ def get_single_animal(id):
 
         return json.dumps(animal.__dict__)
 
-def get_animal_by_location_id(location_id):
+def get_animals_by_location_id(location_id):
 
     with sqlite3.connect("./kennel.db") as conn:
         conn.row_factory = sqlite3.Row

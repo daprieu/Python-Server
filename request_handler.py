@@ -1,9 +1,13 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from animals import get_all_animals, get_single_animal, create_animal, delete_animal, update_animal, get_animal_by_location_id
-from locations import get_all_locations, get_single_location, create_location, delete_location, update_location
-from employees import get_all_employees, get_single_employee, create_employee, delete_employee, update_employee
-from customers import get_all_customers, get_single_customer, create_customer, delete_customer, update_customer, get_customers_by_email
+from animals import (get_all_animals, get_single_animal, create_animal, 
+                    delete_animal, update_animal, get_animals_by_location_id)
+from locations import (get_all_locations, get_single_location, 
+                    create_location, delete_location, update_location)
+from employees import (get_all_employees, get_single_employee, 
+                    create_employee, delete_employee, update_employee, get_employees_by_location_id)
+from customers import (get_all_customers, get_single_customer, create_customer, 
+                    delete_customer, update_customer, get_customers_by_email)
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -106,7 +110,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "email" and resource == "customers":
                 response = get_customers_by_email(value)
             if key == "location_id" and resource == "animals":
-                response = get_animal_by_location_id(value)
+                response = get_animals_by_location_id(value)
+            if key == "location_id" and resource == "employees":
+                response = get_employees_by_location_id(value)
 
         self.wfile.write((response).encode())
 
