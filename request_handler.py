@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from animals import (get_all_animals, get_single_animal, create_animal, 
-                    delete_animal, update_animal, get_animals_by_location_id)
+                    delete_animal, update_animal, get_animals_by_location_id, get_animals_by_status)
 from locations import (get_all_locations, get_single_location, 
                     create_location, delete_location, update_location)
 from employees import (get_all_employees, get_single_employee, 
@@ -113,6 +113,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                 response = get_animals_by_location_id(value)
             if key == "location_id" and resource == "employees":
                 response = get_employees_by_location_id(value)
+            if key == "status" and resource == "animals":
+                response = get_animals_by_status(value)
 
         self.wfile.write((response).encode())
 
