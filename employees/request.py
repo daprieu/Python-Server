@@ -1,44 +1,7 @@
 import sqlite3
 import json
 from models import Employee
-
-# EMPLOYEES = [
-#     {
-#         "id": 1,
-#         "name": "Emma Beaton",
-#         "locationId": 1
-#     },
-#     {
-#         "id": 2,
-#         "name": "Samual L. Jackson",
-#         "locationId": 2
-#     },
-#     {
-#         "id": 3,
-#         "name": "Hayden Christensen",
-#         "locationId": 2
-#     },
-#     {
-#         "id": 4,
-#         "name": "Ewan McGregor",
-#         "locationId": 1
-#     },
-#     {
-#         "name": "Carrie Fisher",
-#         "locationId": 3,
-#         "id": 5
-#     },
-#     {
-#         "name": "Natalie Portman",
-#         "location": 4,
-#         "id": 6
-#     },
-#     {
-#         "id": 7,
-#         "name": "George Lucas",
-#         "locationId": 3
-#     }
-# ]
+from models import Location
 
 def get_all_employees():
         # Open a connection to the database
@@ -54,8 +17,12 @@ def get_all_employees():
             e.id,
             e.name,
             e.address,
-            e.location_id
+            e.location_id,
+            l.name location_name,
+            l.address location_address
         FROM employee e
+        JOIN Location l
+            ON l.id = e.location_id
         """)
 
         # Initialize an empty list to hold all employee representations
@@ -71,9 +38,14 @@ def get_all_employees():
             # Note that the database fields are specified in
             # exact order of the parameters defined in the
             # employee class above.
-            employee = Employee(row['id'], row['name'], row['address'], row['location_id']
-                            )
+            employee = Employee(row['id'], row['name'], row['address'], row['location_id'])
+            # Create a Location instance from the current row
+            location = Location(row['id'], row['location_name'], row['location_address'])
 
+            # Add the dictionary representation of the location to the animal
+            employee.location = location.__dict__
+
+            # Add the dictionary representation of the animal to the list
             employees.append(employee.__dict__)
 
     # Use `json` package to properly serialize list as JSON
@@ -91,9 +63,13 @@ def get_single_employee(id):
         SELECT
             e.id,
             e.name,
-            e.address
-            e.location_id
+            e.address,
+            e.location_id,
+            l.name location_name,
+            l.address location_address
         FROM employee e
+        JOIN Location l
+            ON l.id = e.location_id
         WHERE e.id = ?
         """, ( id, ))
 
@@ -101,7 +77,11 @@ def get_single_employee(id):
         data = db_cursor.fetchone()
 
         # Create an employee instance from the current row
-        employee = Employee(data['id'], data['name'], data['location_id'])
+        employee = Employee(data['id'], data['name'], data['address'], data['location_id'])
+        # Create a Location instance from the current row
+        location = Location(data['id'], data['location_name'], data['location_address'])
+        # Add the dictionary representation of the location to the animal
+        employee.location = location.__dict__
 
         return json.dumps(employee.__dict__)
 
