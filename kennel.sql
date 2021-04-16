@@ -68,3 +68,4 @@ INSERT INTO `Animal` VALUES (null, "Daps", "Kennel", "Boxer", 2, 2);
         JOIN Location l
             ON l.id = e.location_id;
 
+SELECT * FROM Animal ORDER BY id DESC;
