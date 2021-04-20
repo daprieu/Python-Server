@@ -28,9 +28,9 @@ def get_all_animals():
             c.email customer_email,
             c.password customer_password
         FROM Animal a
-        JOIN Location l
+        LEFT JOIN Location l
             ON l.id = a.location_id
-        JOIN Customer c
+        LEFT JOIN Customer c
             ON c.id = a.customer_id
         """)
 
@@ -175,9 +175,9 @@ def create_animal(new_animal):
 
         db_cursor.execute("""
         INSERT INTO Animal
-            ( name, breed, status, location_id, customer_id )
+            (name, breed, status, location_id, customer_id)
         VALUES
-            ( ?, ?, ?, ?, ?);
+            (?, ?, ?, ?, ?);
         """, (new_animal['name'], new_animal['breed'],
               new_animal['status'], new_animal['location_id'],
               new_animal['customer_id'], ))
